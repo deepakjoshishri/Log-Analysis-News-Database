@@ -24,9 +24,9 @@ and postgresql Relational database system.
 3.newsdata.sql file in vagrant directory [fullstack-nandegree-vm repository](https://github.com/udacity/fullstack-nanodegree-vm) of helps us to load a database in our vm postgres.
 
 ### How to run:
-Step 1. move into vagrant directory 
-Step 2. **vagrant up** command to run the vagrant on vm
-Step 3. **vagrant ssh** to login into vm
-Step 4. change directory to vagrant and make sure newsdata.sql file is present in it using **ls** command.
-Step 5. use command **psql -d news -f newsdata.sql** to load database
-Step 6. use command **python log.py** or **python3 log.py** to run the program
+Step 1. move into vagrant directory.<br>
+Step 2. **vagrant up** command to run the vagrant on vm.<br>
+Step 3. **vagrant ssh** to login into vm.<br>
+Step 4. change directory to vagrant and make sure newsdata.sql file is present in it using **ls** command.<br>
+Step 5. use command **psql -d news -f newsdata.sql** to load database.<br>
+Step 6. use command **python log.py** or **python3 log.py** to run the program.<br>
