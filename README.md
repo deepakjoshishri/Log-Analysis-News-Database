@@ -30,3 +30,40 @@ Step 3. **vagrant ssh** to login into vm.<br>
 Step 4. change directory to vagrant and make sure newsdata.sql file is present in it using **ls** command.<br>
 Step 5. use command **psql -d news -f newsdata.sql** to load database.<br>
 Step 6. use command **python log.py** or **python3 log.py** to run the program.<br>
+
+
+## Output should look like this:
+
+**********************************************************************
+Question 1: Most popular articles are
+**********************************************************************
++----------------------------------+--------+
+|              Title               | Views  |
++----------------------------------+--------+
+| Candidate is jerk, alleges rival | 338647 |
+| Bears love berries, alleges bear | 253801 |
+| Bad things gone, say good people | 170098 |
++----------------------------------+--------+
+
+
+**********************************************************************
+Question 2: Most popular authors are
+**********************************************************************
++------------------------+--------+
+|         Title          | Views  |
++------------------------+--------+
+|    Ursula La Multa     | 507594 |
+| Rudolf von Treppenwitz | 423457 |
+| Anonymous Contributor  | 170098 |
+|     Markoff Chaney     | 84557  |
++------------------------+--------+
+
+
+**********************************************************************
+Question 3: Days with more than 1% errors are
+**********************************************************************
++------------+--------------------+
+|    Date    |     Percentage     |
++------------+--------------------+
+| 2016-07-17 | 2.2785265049415993 |
++------------+--------------------+
