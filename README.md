@@ -31,6 +31,55 @@ Step 4. change directory to vagrant and make sure newsdata.sql file is present i
 Step 5. use command **psql -d news -f newsdata.sql** to load database.<br>
 Step 6. use command **python Logs-udacity.py** or **python3 Logs-udacity.py** to run the program.<br>
 
+### PSQL queries used To create the views
+
+```sql
+CREATE VIEW author_info AS
+SELECT authors.name, articles.title, articles.slug
+FROM articles, authors
+WHERE articles.author = authors.id
+ORDER BY authors.name;
+```
+
+```sql
+CREATE VIEW path_view AS
+SELECT path, COUNT(*) AS view
+FROM log
+GROUP BY path
+ORDER BY path;
+```
+
+```sql
+CREATE VIEW article_view AS
+SELECT author_info.name, author_info.title, path_view.view
+FROM author_info, path_view
+WHERE path_view.path = CONCAT('/article/', author_info.slug)
+ORDER BY author_info.name;
+```
+
+```sql
+CREATE VIEW total_view AS
+SELECT date(time), COUNT(*) AS views
+FROM log 
+GROUP BY date(time)
+ORDER BY date(time);
+```
+
+```sql
+CREATE VIEW error_view AS
+SELECT date(time), COUNT(*) AS errors
+FROM log WHERE status = '404 NOT FOUND' 
+GROUP BY date(time) 
+ORDER BY date(time);
+```
+
+```sql
+CREATE VIEW error_rate AS
+SELECT total_view.date, (100.0*error_view.errors/total_view.views) AS percentage
+FROM total_view, error_view
+WHERE total_view.date = error_view.date
+ORDER BY total_view.date;
+```
 
 ## Output should look like this:
 
