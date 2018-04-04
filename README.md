@@ -29,7 +29,7 @@ Step 2. **vagrant up** command to run the vagrant on vm.<br>
 Step 3. **vagrant ssh** to login into vm.<br>
 Step 4. change directory to vagrant and make sure newsdata.sql file is present in it using **ls** command.<br>
 Step 5. use command **psql -d news -f newsdata.sql** to load database.<br>
-Step 6. use command **python log.py** or **python3 log.py** to run the program.<br>
+Step 6. use command **python Logs-udacity.py** or **python3 Logs-udacity.py** to run the program.<br>
 
 
 ## Output should look like this:
