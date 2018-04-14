@@ -9,46 +9,46 @@ import os
 def main():
     os.system('clear')
     # Connect to an existing database
-    conn = psycopg2.connect("dbname=news")
+    conn = psycopg2.connect("news")
 
     # Open a cursor to perform database operations
-    cur = conn.cursor()
-    # Question 1
-    sql_popular_articles = """
-      SELECT article_view.title, article_view.view
+    current = conn.cursor()
+    # 1. What are the most popular three articles of all time?
+    most_popular_articles_3 = """
+      SELECT title, view
       FROM article_view
-      ORDER BY article_view.view DESC
+      ORDER BY view DESC
       LIMIT 3;
     """
-    cur.execute(sql_popular_articles)
+    current.execute(most_popular_articles_3)
     print("*" * 70)
     print("Question 1: Most popular articles are")
     print("*" * 70)
-    printTable(cur)
+    printTable(current)
     print("\n")
 
-    # Question 2
-    sql_popular_authors = """
-    SELECT article_view.name, SUM(article_view.view) AS author_view
-    FROM article_view
-    GROUP BY article_view.name
-    ORDER BY author_view DESC;
+    # 2. Who are the most popular article authors of all time?
+    most_popular_authors = """
+    SELECT A.name, SUM(A.view) AS AU
+    FROM article_view AS A
+    GROUP BY A.name
+    ORDER BY AU DESC;
     """
-    cur.execute(sql_popular_authors)
+    current.execute(most_popular_authors)
     print("*" * 70)
     print("Question 2: Most popular authors are")
     print("*" * 70)
-    printTable(cur)
+    printTable(current)
     print("\n")
 
-    # Question 3
-    sql_more_than_one_percent_errors = """
+    # 3. On which days did more than 1% of requests lead to errors?
+    more_than_one_percent_errors = """
     SELECT *
-    FROM error_rate
-    WHERE error_rate.percentage > 1
-    ORDER BY error_rate.percentage DESC;
+    FROM error_rate AS E
+    WHERE E.percentage > 1
+    ORDER BY E.percentage DESC;
     """
-    cur.execute(sql_more_than_one_percent_errors)
+    current.execute(more_than_one_percent_errors)
     x = prettytable.PrettyTable(["Date", "Percentage"])
     print("*" * 70)
     print("Question 3: Days with more than 1% errors are")
@@ -58,16 +58,16 @@ def main():
     print(x)
     print("\n")
 
-    # Close communication with the database
-    cur.close()
+    # Close connection with the database
+    current.close()
     conn.close()
 ''' prettytable.PrettyTable(["header name", "header name"])
     x.add_row([data, data]) -> x.add_row([title, view]) '''
 
 
-def printTable(cur):
+def printTable(current):
     x = prettytable.PrettyTable(["Title", "Views"])
-    for (title, view) in cur.fetchall():
+    for (title, view) in current.fetchall():
         x.add_row([title, view])
     print(x)
 
