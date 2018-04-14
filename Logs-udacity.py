@@ -1,5 +1,6 @@
-'''!/usr/bin/env python3
-import prettytable.py which is used for desgining table
+# !/usr/bin/env python3
+
+'''import prettytable.py which is used for desgining table
 import os for clearing screen before execution'''
 import prettytable
 import psycopg2
