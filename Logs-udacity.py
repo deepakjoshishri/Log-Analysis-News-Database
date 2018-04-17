@@ -1,7 +1,8 @@
 # !/usr/bin/env python3
 
-'''import prettytable.py which is used for desgining table
-import os for clearing screen before execution'''
+# import prettytable.py which is used for desgining table
+# import os for clearing screen before execution
+
 import prettytable
 import psycopg2
 import os
@@ -14,11 +15,21 @@ def main():
 
     # Open a cursor to perform database operations
     current = conn.cursor()
+    most_popular_articles_3(current)
+    most_popular_authors(current)
+    more_than_one_percent_errors(current)
+
+    # Close connection with the database
+    current.close()
+    conn.close()
+
+
+def most_popular_articles_3(current):
     # 1. What are the most popular three articles of all time?
     most_popular_articles_3 = """
-      SELECT title, view
-      FROM article_view
-      ORDER BY view DESC
+      select title, view
+      from view_article
+      order by view DESC
       LIMIT 3;
     """
     current.execute(most_popular_articles_3)
@@ -28,12 +39,14 @@ def main():
     printTable(current)
     print("\n")
 
+
+def most_popular_authors(current):
     # 2. Who are the most popular article authors of all time?
     most_popular_authors = """
-    SELECT A.name, SUM(A.view) AS AU
-    FROM article_view AS A
-    GROUP BY A.name
-    ORDER BY AU DESC;
+    select A.name, SUM(A.view) AS AU
+    from view_article AS A
+    GROUP by A.name
+    order by AU DESC;
     """
     current.execute(most_popular_authors)
     print("*" * 70)
@@ -42,12 +55,14 @@ def main():
     printTable(current)
     print("\n")
 
+
+def more_than_one_percent_errors(current):
     # 3. On which days did more than 1% of requests lead to errors?
     more_than_one_percent_errors = """
-    SELECT *
-    FROM error_rate AS E
-    WHERE E.percentage > 1
-    ORDER BY E.percentage DESC;
+    select *
+    from error_rate AS E
+    where E.percentage > 1
+    order by E.percentage DESC;
     """
     current.execute(more_than_one_percent_errors)
     x = prettytable.PrettyTable(["Date", "Percentage"])
@@ -59,18 +74,15 @@ def main():
     print(x)
     print("\n")
 
-    # Close connection with the database
-    current.close()
-    conn.close()
-''' prettytable.PrettyTable(["header name", "header name"])
-    x.add_row([data, data]) -> x.add_row([title, view]) '''
-
 
 def printTable(current):
-    x = prettytable.PrettyTable(["Title", "Views"])
+    # prettytable.PrettyTable(["header name", "header name"])
+    # x.add_row([data, data]) -> x.add_row([title, view])
+    x = prettytable.PrettyTable(["Title", "views"])
     for (title, view) in current.fetchall():
         x.add_row([title, view])
     print(x)
+
 
 if __name__ == "__main__":
     main()
