@@ -34,51 +34,51 @@ Step 6. use command **python Logs-udacity.py** or **python3 Logs-udacity.py** to
 ### PSQL queries used To create the views
 
 ```sql
-CREATE VIEW author_info AS
-SELECT authors.name, articles.title, articles.slug
-FROM articles, authors
-WHERE articles.author = authors.id
-ORDER BY authors.name;
+create view info_of_authors AS
+select authors.name, articles.title, articles.slug
+from articles, authors
+where articles.author = authors.id
+order by authors.name;
 ```
 
 ```sql
-CREATE VIEW path_view AS
-SELECT path, COUNT(*) AS view
-FROM log
-GROUP BY path
-ORDER BY path;
+create view view_path AS
+select path, COUNT(*) AS view
+from log
+GROUP by path
+order by path;
 ```
 
 ```sql
-CREATE VIEW article_view AS
-SELECT author_info.name, author_info.title, path_view.view
-FROM author_info, path_view
-WHERE path_view.path = CONCAT('/article/', author_info.slug)
-ORDER BY author_info.name;
+create view view_article AS
+select info_of_authors.name, info_of_authors.title, view_path.view
+from info_of_authors, view_path
+where view_path.path = CONCAT('/article/', info_of_authors.slug)
+order by info_of_authors.name;
 ```
 
 ```sql
-CREATE VIEW total_view AS
-SELECT date(time), COUNT(*) AS views
-FROM log 
-GROUP BY date(time)
-ORDER BY date(time);
+create view total_no_views AS
+select date(time), COUNT(*) AS views
+from log 
+GROUP by date(time)
+order by date(time);
 ```
 
 ```sql
-CREATE VIEW error_view AS
-SELECT date(time), COUNT(*) AS errors
-FROM log WHERE status = '404 NOT FOUND' 
-GROUP BY date(time) 
-ORDER BY date(time);
+create view error_view AS
+select date(time), COUNT(*) AS errors
+from log where status = '404 NOT FOUND' 
+GROUP by date(time) 
+order by date(time);
 ```
 
 ```sql
-CREATE VIEW error_rate AS
-SELECT total_view.date, (100.0*error_view.errors/total_view.views) AS percentage
-FROM total_view, error_view
-WHERE total_view.date = error_view.date
-ORDER BY total_view.date;
+create view error_rate AS
+select total_no_views.date, (100.0*error_view.errors/total_no_views.views) AS percentage
+from total_no_views, error_view
+where total_no_views.date = error_view.date
+order by total_no_views.date;
 ```
 
 ## Output should look like this:
@@ -87,7 +87,7 @@ ORDER BY total_view.date;
 Question 1: Most popular articles are<br>
 **********************************************************************<br>
 +----------------------------------+--------+<br>
-|              Title               | Views  |<br>
+|              Title               | views  |<br>
 +----------------------------------+--------+<br>
 | Candidate is jerk, alleges rival | 338647 |<br>
 | Bears love berries, alleges bear | 253801 |<br>
@@ -99,7 +99,7 @@ Question 1: Most popular articles are<br>
 Question 2: Most popular authors are<br>
 **********************************************************************<br>
 +------------------------+--------+<br>
-|         Title          | Views  |<br>
+|         Title          | views  |<br>
 +------------------------+--------+<br>
 |    Ursula La Multa     | 507594 |<br>
 | Rudolf von Treppenwitz | 423457 |<br>
